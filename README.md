@@ -1,13 +1,7 @@
 # 3cshop
 A practice production
 
-<<<<<<< HEAD
-######預覽
 ![loginImg](https://github.com/jiejessien/image/blob/master/login.JPG)
-
-
-=======
->>>>>>> 
 
 ##專題說明
 
