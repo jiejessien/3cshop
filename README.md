@@ -4,7 +4,7 @@ A practice production
 ![loginImg](https://github.com/jiejessien/image/blob/master/login.JPG)
 
 
-##專題說明
+## 專題說明
 ### 經修改及擴充的部分
 1.	HTML、CSS介面重新設計及大調整。
 2.	將會員系統與商品頁做資料連結，透過會員帳號訂購商品。
