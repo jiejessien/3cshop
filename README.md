@@ -1,8 +1,13 @@
 # 3cshop
 A practice production
 
+<<<<<<< HEAD
 ######預覽
 ![loginImg](https://github.com/jiejessien/image/blob/master/login.JPG)
+
+
+=======
+>>>>>>> 
 
 ##專題說明
 
@@ -32,8 +37,6 @@ A practice production
 2.	加入庫存管理
 3.	管理員修改商品資訊
 4.	刪除商品(圖片問題)
-<<<<<<< HEAD
 
 
-=======
->>>>>>> d9eda1e85a4491b3419e184695245b800e279369
+
