@@ -1,0 +1,166 @@
+body{
+	font-family:微軟正黑體;}
+p:not(.heading){
+	font-size:14px;
+}
+p.heading {
+	color:	#000000;
+	font-size:16px;
+	font-weight:bold;
+
+}
+h1 {
+	
+	display:block;
+	padding:6px 8px;
+	background-color: #EEEEEE;
+	color:	#328686;
+	font-size:16px;
+	font-weight:bold;
+	border-left:5px solid #328686;
+
+}
+h2 {
+	color:	#000000;
+	font-size:14px;
+}
+p.title {
+	color:	#222222;
+	font-size:18px;
+	font-weight:bold;
+	border-bottom:2.5px solid #FFBB00;
+	padding:3px 8px;
+}
+div.errDiv{
+	color:	red;
+	padding:3px;
+	border:0.5px solid red;
+	font-size:14px;
+}
+div.regbox {
+padding:5%;
+border:0.8px solid #BBBBBB;
+text-align:center;
+border-radius: 20px;}
+
+div.content a {
+	color:	#AE0000;
+	font-size:14px;
+	text-decoration:none;
+}
+
+div.content a:hover{
+	text-decoration:underline;
+}
+
+div.content{
+	width:90%;
+	margin: auto;
+}
+
+input[type=button]:hover, input[type=submit]:hover,input[type=reset]:hover,.button:hover{
+	background-color: #FFD306;
+}
+input[type=button], input[type=submit],input[type=reset],.button{
+	background-color: #FFBB00;
+  border: none;
+  border-radius: 3px;
+  color: black;
+  padding: 6px 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-flex;
+  justify-content: space-around;
+  font-size: 14px;
+  margin: 1%;
+  cursor: pointer;
+  font-family:微軟正黑體;
+}
+div.box-large{
+	width:60%;
+	margin: auto;
+	padding:1%;
+}
+div.box-small{
+	width:35%;
+	margin: auto;
+	padding:1%;
+}
+.smalltext{
+	font-size:12px;
+	color:grey;
+}
+table.table-list th{
+	padding:5px;
+}
+input[type=text]{
+	width:60%;
+	padding:5px 5px;
+}
+input[type=password]{
+	width:60%;
+	padding:5px 5px;
+}
+div.inlinesubmit{
+text-align:center;}
+
+table{
+	margin:1%;
+	 border-collapse: collapse;
+	 width:100%;
+}
+th{
+	color:#328686;
+	font-weight:bold;
+	vertical-align:top;
+}
+
+table.table-list th ,table.table-list td{
+	 border:0.5px solid #BBBBBB;
+	 text-align:center;
+	 padding:5px;
+}
+table.table-list tr:odd{
+	background-color:white;
+}
+table.table-list tr:even{
+	background-color:#E9E9E2;
+}
+.list th,.list td{
+	border:0.5px solid #DDDDDD;
+	padding:3px 8px;
+}
+
+
+.dataDiv{
+	margin-left:5%;
+	line-height:2.6;
+	font-size:14px;
+}
+
+.trademark{
+	text-align:center;
+}
+label{
+	font-weight:bold;
+}
+span.notice{
+	color:red;
+}
+.btnrow{
+	text-align:center;
+}
+.pageDiv td,th{
+	padding:10px 0px;
+}
+#recomm1,#recomm2,#recomm3{
+	font-size:11px;
+	background:lightblue;
+	color:blue;
+	border-radius:15px;
+}
+.trademark {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 8pt;
+	color: #0099FF;
+}
