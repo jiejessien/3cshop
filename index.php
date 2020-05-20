@@ -16,13 +16,17 @@ $(document).ready(function(){
 
 
 <body>
-<nav class="navbar">
+<!--nav class="navbar"-->
 	<?php //上方導覽列
-	include("navbar.html"); ?>
+	//include("navbar.html"); ?>
 </nav>
 <div class="box-primary ">
 <p>未完成的首頁</p>
-<p>請點選上方商品瀏覽或會員系統</p>
+<p>請點選商品瀏覽或會員系統</p>
+<ul>
+	<li><a href="product/product.php">商品瀏覽</a></li>
+	<li><a href="member/login.php">會員系統</a></li>
+</ul>
 
 </div>
 <div align="center"  class="trademark">

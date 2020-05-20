@@ -10,7 +10,7 @@ if (isset($_GET['page'])) {
 }
 //本頁開始記錄筆數 = (頁數-1)*每頁記錄筆數
 $startRow_records = ($num_pages -1) * $pageRow_records;
-$query_RecProduct="SELECT * FROM product";
+$query_RecProduct="SELECT * FROM product left join (select productid as pid ,sum(quantity) as num from orderdetail group by productid) totalqty on product.productid = totalqty.pid ";
 //若有分類關鍵字時未加限制顯示筆數的SQL敘述句
 
 if(isset($_GET["cid"])&&($_GET["cid"]!="")){
@@ -41,7 +41,28 @@ if(isset($_GET["keyword"])&&($_GET["keyword"]!="")){
 	$query_RecProduct .=" ((productname LIKE '%{$_GET["keyword"]}%')OR(description LIKE '%{$_GET["keyword"]}%'))";
 }	
 
-$query_RecProduct .=" ORDER BY productid DESC";
+if(isset($_GET["orderby"])){
+	orderBy($_GET["orderby"],$query_RecProduct);
+}
+else
+	$query_RecProduct .=" ORDER BY productid DESC";
+function orderBy($choice,&$query){
+	switch($choice){
+		
+		case 'timeasc':
+			$query .=" ORDER BY producttime ASC";
+			break;
+		case 'qtydesc':
+			$query .=" ORDER BY num DESC";
+			break;
+		case 'qtyasc':
+			$query .=" ORDER BY num ASC";
+			break;
+		default:
+			$query .=" ORDER BY producttime DESC";
+			break;
+	}
+}
 
 $all_RecProduct=$db_link->query($query_RecProduct);
 //計算總筆數
@@ -75,8 +96,33 @@ function keepURL(){
 <script>
 $(document).ready(function(){
   $("body").find("*").css("font-family", "微軟正黑體");
-
+	
 });
+function orderbyfunc(){
+	var cururl=window.location.href;
+	var orderbyVal=$("#orderby").val();
+	var locationurl;
+	if(cururl.indexOf('orderby')!= -1)
+		locationurl= cururl.substring(0,cururl.indexOf('orderby'))+"orderby="+orderbyVal;
+	else{
+		if(cururl.indexOf('?')== -1)
+			locationurl= cururl+"?orderby="+orderbyVal;
+		else	
+			locationurl= cururl+"&orderby="+orderbyVal;
+	}
+		
+		
+	/*
+	if(cururl.indexOf('?')== -1)
+		locationurl=cururl+"?orderby="+orderbyVal;
+	else	
+		locationurl=cururl+"&orderby="+orderbyVal;
+	if(locationurl.indexOf('orderby')!= -1)
+		locationurl= locationurl.substring(0,locationurl.indexOf('orderby'))+"orderby="+orderbyVal;
+	
+	*/
+	window.location.href=locationurl;
+}
 </script>
 </head>
 
@@ -87,6 +133,9 @@ $(document).ready(function(){
 	include("../navbar.html"); ?>
 </nav>
 <div class="box-primary ">
+
+
+<p id="test"></p>
 <table >
 	<tr>
 		<td class="box-tiny">
@@ -130,9 +179,18 @@ $(document).ready(function(){
 			<?php	
 			 }
 			 else{?>
-			 <p class="title">所有產品</p>
-			 
+			 <p class="title">所有產品 </p>			 
 			<?php }?>
+			
+			<form method="get" action="product.php" style="text-align:right">
+				 <select id="orderby" name="orderby" onChange="orderbyfunc()" >
+					<option value="timedesc" >上架時間&#9661;</option>
+					<option value="timeasc" <?php if(isset($_GET["orderby"])&&($_GET["orderby"]=="timeasc")) echo "selected";?>>上架時間&#9651; </option>
+					<option value="qtydesc" <?php if(isset($_GET["orderby"])&&($_GET["orderby"]=="qtydesc")) echo "selected";?>>熱銷度&#9661; </option>
+					<option value="qtyasc" <?php if(isset($_GET["orderby"])&&($_GET["orderby"]=="qtyasc")) echo "selected";?>>熱銷度&#9651; </option>				
+				</select>
+			</form>
+			
 			<div class="allalbum" >
 			<?php
             //加上限制顯示筆數的SQL敘述句，由本頁開始記錄筆數開始，每頁顯示預設筆數
