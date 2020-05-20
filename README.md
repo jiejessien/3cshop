@@ -10,7 +10,7 @@ A practice production
 2.	將會員系統與商品頁做資料連結，透過會員帳號訂購商品。
 3.	會員管理頁(admin_memberdata.php)可查詢會員帳號或姓名。
 4.	新增訂單查詢頁(admin_center.php)和訂單明細頁(admin_orderdetail.php) 。 
-5.	訂單查詢頁可篩選指定日期往後3個月內訂單。
+5.	訂單查詢頁(admin_center.php)可篩選指定日期往後3個月內訂單。
 6.	新增商品管理頁(admin_productdata.php)和商品上傳頁 (admin_newproduct.php) 。
 7.	新增comment資料表及規劃欄位。
 8.	新增商品留言頁(member_comment.php)，可點選現成的評價文字，
@@ -21,7 +21,6 @@ A practice production
 12.	設計頁碼導覽列，總頁數>5時，只顯示包含當前頁面在內的5個頁碼
 
 ### 原書上範例
-###### (挑戰PHP7／MySQL程式設計與超強專題特訓班)
 1.	會員系統與商品頁分屬兩個不相干的專案
 2.	訂購商品僅由填入表單下訂，非會員制
 3.	已有會員系統功能：登出/入、加入會員、忘記密碼、修改及刪除會員
