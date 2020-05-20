@@ -55,9 +55,7 @@ function orderBy($choice,&$query){
 		case 'qtydesc':
 			$query .=" ORDER BY num DESC";
 			break;
-		case 'qtyasc':
-			$query .=" ORDER BY num ASC";
-			break;
+		
 		default:
 			$query .=" ORDER BY producttime DESC";
 			break;
@@ -94,12 +92,13 @@ function keepURL(){
 <link href="../css/product_style.css" rel="stylesheet" type="text/css">
 <script src="../js/jquery-3.5.0.min.js"></script>
 <script>
+var cururl=window.location.href;
 $(document).ready(function(){
   $("body").find("*").css("font-family", "微軟正黑體");
 	
 });
 function orderbyfunc(){
-	var cururl=window.location.href;
+	
 	var orderbyVal=$("#orderby").val();
 	var locationurl;
 	if(cururl.indexOf('orderby')!= -1)
@@ -110,17 +109,6 @@ function orderbyfunc(){
 		else	
 			locationurl= cururl+"&orderby="+orderbyVal;
 	}
-		
-		
-	/*
-	if(cururl.indexOf('?')== -1)
-		locationurl=cururl+"?orderby="+orderbyVal;
-	else	
-		locationurl=cururl+"&orderby="+orderbyVal;
-	if(locationurl.indexOf('orderby')!= -1)
-		locationurl= locationurl.substring(0,locationurl.indexOf('orderby'))+"orderby="+orderbyVal;
-	
-	*/
 	window.location.href=locationurl;
 }
 </script>
@@ -186,8 +174,7 @@ function orderbyfunc(){
 				 <select id="orderby" name="orderby" onChange="orderbyfunc()" >
 					<option value="timedesc" >上架時間&#9661;</option>
 					<option value="timeasc" <?php if(isset($_GET["orderby"])&&($_GET["orderby"]=="timeasc")) echo "selected";?>>上架時間&#9651; </option>
-					<option value="qtydesc" <?php if(isset($_GET["orderby"])&&($_GET["orderby"]=="qtydesc")) echo "selected";?>>熱銷度&#9661; </option>
-					<option value="qtyasc" <?php if(isset($_GET["orderby"])&&($_GET["orderby"]=="qtyasc")) echo "selected";?>>熱銷度&#9651; </option>				
+					<option value="qtydesc" <?php if(isset($_GET["orderby"])&&($_GET["orderby"]=="qtydesc")) echo "selected";?>>熱銷度&#9661; </option>				
 				</select>
 			</form>
 			
