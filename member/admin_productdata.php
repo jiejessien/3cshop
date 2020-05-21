@@ -17,10 +17,12 @@ if(isset($_GET["logout"]) && ($_GET["logout"]=="true")){
 }
 //刪除商品
 if(isset($_GET["action"])&&($_GET["action"]=="delete")){
-	$query_delimg="SELECT productimages from product";
+	$query_delimg="SELECT productimages from product where productid={$_GET['id']}";
 	$delimg=$db_link->query($query_delimg);
 	$row_delimg=$delimg->fetch_assoc();
-	unlink("proimg/".$row_delimg['productimages']);
+	
+	unlink("../product/proimg/".$row_delimg['productimages']);
+	
 	$query_delProduct = "DELETE FROM product WHERE productid=?";
 	$stmt=$db_link->prepare($query_delProduct);
 	$stmt->bind_param("i", $_GET["id"]);
@@ -28,6 +30,7 @@ if(isset($_GET["action"])&&($_GET["action"]=="delete")){
 	$stmt->close();
 	//重新導向回到主畫面
 	header("Location: admin_productdata.php");
+	
 }
 //選取管理員資料
 $query_RecAdmin = "SELECT m_id, m_name, m_logintime FROM memberdata WHERE m_username=?";
@@ -69,7 +72,7 @@ $total_pages = ceil($total_records/$pageRow_records);
 <script src="../js/jquery-3.5.0.min.js"></script>
 <script language="javascript">
 function deletesure(){
-    if (confirm('\n您確定要刪除這個會員嗎?\n刪除後無法恢復!\n')) return true;
+    if (confirm('\n您確定要刪除這個商品嗎?\n刪除後無法恢復!\n')) return true;
     return false;
 }
 </script>
@@ -103,21 +106,22 @@ $(document).ready(function(){
 	<table class="table-list">
 		<tr>
 			<th width="10%" >&nbsp;</th>
+			<th width="10%" ><p>預覽</p></th>
 			<th width="40%" ><p>商品名稱</p></th>
 			<th width="10%" ><p>分類</p></th>
 			<th width="10%" ><p>價格</p></th>
 			<th width="20%" ><p>修改時間</p></th>
-			<th width="10%" ><p>預覽</p></th>
+
         </tr>
 		<?php while($row_RecProduct=$RecProduct->fetch_assoc()){ ?>
         <tr>
           <td width="10%" ><p><a href="admin_updproduct.php?id=<?php echo $row_RecProduct["productid"];?>">修改</a><br>
                 <a href="?action=delete&id=<?php echo $row_RecProduct["productid"];?>" onClick="return deletesure();">刪除</a></p></td>
-            <td width="40%" ><p><?php echo $row_RecProduct["productname"];?></p></td>
+            <td width="10%" height="10%" ><img src="../product/proimg/<?php echo $row_RecProduct['productimages'];?>" alt="<?php echo $row_RecProduct["productname"];?>"  width="60px" height="60px"/></td>
+            <td width="40%" ><a href="../product/productdetail.php?id=<?php  echo $row_RecProduct["productid"];?>" target="_blanck"><?php echo $row_RecProduct["productname"];?></a></td>
             <td width="10%" ><p><?php echo $row_RecProduct["categoryname"];?></p></td>
             <td width="10%" ><p><?php echo $row_RecProduct["productprice"];?></p></td>
             <td width="20%" ><p><?php echo $row_RecProduct["producttime"];?></p></td>
-            <td width="10%" ><img src="<?php echo 'proimg/'.$row_RecProduct['productimages'];?>" width="inherit"></td>
             </tr>
 		<?php }?>
     </table>	        
@@ -148,8 +152,5 @@ $(document).ready(function(){
 </body>
 </html>
 <?php
-	$db_link->close();
-	
-	
-	
+	$db_link->close();	
 ?>

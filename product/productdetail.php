@@ -3,6 +3,7 @@ require_once("../connMysql.php");
 //購物車開始
 require_once("../cart/mycart.php");
 session_start();
+
 $cart =& $_SESSION['cart']; // 將購物車的值設定為 Session
 if(!is_object($cart)) $cart = new myCart();
 // 新增購物車內容
@@ -10,13 +11,17 @@ if(isset($_POST["cartaction"]) && ($_POST["cartaction"]=="add")){
 	$cart->add_item($_POST['id'],$_POST['qty'],$_POST['price'],$_POST['name']);
 	header("Location: ../cart/cart.php");
 }
-//購物車結束
-//繫結產品資料
+if(!isset($_GET["id"])||($_GET["id"])=="")
+	header("Location: product.php");
+//繫結商品資料
 $query_RecProduct = "SELECT * FROM product WHERE productid=?";
 $stmt = $db_link->prepare($query_RecProduct);
 $stmt->bind_param("i", $_GET["id"]);
 $stmt->execute();
 $RecProduct = $stmt->get_result();
+/*
+if($RecProduct->row_nums==0)
+	header("Location: product.php");*/
 $row_RecProduct = $RecProduct->fetch_assoc();
 //繫結留言資料
 $query_RecComment="SELECT * FROM comment WHERE c_productid=? ORDER BY c_datetime DESC";
@@ -24,7 +29,7 @@ $stmt2=$db_link->prepare($query_RecComment);
 $stmt2->bind_param("i",$_GET["id"]);
 $stmt2->execute();
 $RecComment=$stmt2->get_result();
-//繫結產品目錄資料
+//繫結商品目錄資料
 $query_RecCategory = "SELECT category.categoryid, category.categoryname, category.categorysort, count(product.productid) as productNum FROM category LEFT JOIN product ON category.categoryid = product.categoryid GROUP BY category.categoryid, category.categoryname, category.categorysort ORDER BY category.categorysort ASC";
 $RecCategory = $db_link->query($query_RecCategory);
 //計算資料總筆數
@@ -58,7 +63,7 @@ $(document).ready(function(){
 		<td class="box-tiny">
              
 			<div class="regbox box-center">
-			 <h1> 產品搜尋 </h1>
+			 <h1> 商品搜尋 </h1>
               <form name="form1" method="get" action="product.php">
                 <p>
                   <input name="keyword" type="text" id="keyword" placeholder="請輸入關鍵字" size="12" onClick="this.value='';">
@@ -80,7 +85,7 @@ $(document).ready(function(){
 		<td rowspan="2" class="box-large top" >
 			
 			
-			<p class="title"> 產品詳細資料</p>
+			<p class="title"> 商品詳細資料</p>
           <div class="product_primary">
           <div class="albumDiv">
             <div class="picDiv">
@@ -111,7 +116,7 @@ $(document).ready(function(){
 			</div>		  
 			
 				<div class="divcomment">		 
-				<p class="title"> 產品評價</p>	
+				<p class="title"> 商品評價</p>	
 
 				<?php if(($RecComment->num_rows)==0){?>
 				<p>目前尚無評價</p>
@@ -148,9 +153,9 @@ $(document).ready(function(){
 	<tr>
 		<td class="box-tiny">
 	<div class="regbox categorybox">
-              <h1>產品目錄 </h1>
+              <h1>商品目錄 </h1>
               <ul >
-                <li ><a href="product.php">所有產品 <span class="categorycount">(<?php echo $row_RecTotal["totalNum"];?>)</span></a></li>
+                <li ><a href="product.php">所有商品 <span class="categorycount">(<?php echo $row_RecTotal["totalNum"];?>)</span></a></li>
                 <?php	while($row_RecCategory=$RecCategory->fetch_assoc()){ ?>
                 <li ><a href="product.php?cid=<?php echo $row_RecCategory["categoryid"];?>"><?php echo $row_RecCategory["categoryname"];?> <span class="categorycount">(<?php echo $row_RecCategory["productNum"];?>)</span></a></li>
                 <?php }?>

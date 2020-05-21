@@ -1,9 +1,6 @@
 # 3cshop
 A practice production
 
-![loginImg](https://github.com/jiejessien/image/blob/master/login.JPG)
-
-
 ## 專題說明
 ### 經修改及擴充的部分
 > *	HTML、CSS介面重新設計及大調整。
@@ -19,6 +16,7 @@ A practice production
 > *	商品瀏覽頁(product.php)可同時篩選關鍵字、價格。
 > *	購物車結帳頁(checkout.php)，可勾選自動填入會員資訊。
 > *	商品瀏覽頁(product.php)可選擇商品排序方式(上架時間desc/asc、暢銷度、商品價格desc/asc)
+	，顯示商品已有幾筆評價
 > *	設計頁碼導覽列，總頁數>5時，只顯示包含當前頁面在內的5個頁碼 
 
 ### 原書上範例

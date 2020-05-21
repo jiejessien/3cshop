@@ -10,7 +10,9 @@ if (isset($_GET['page'])) {
 }
 //本頁開始記錄筆數 = (頁數-1)*每頁記錄筆數
 $startRow_records = ($num_pages -1) * $pageRow_records;
-$query_RecProduct="SELECT * FROM product left join (select productid as pid ,sum(quantity) as num from orderdetail group by productid) totalqty on product.productid = totalqty.pid ";
+$query_RecProduct="SELECT * FROM product left join 
+(select productid as pid ,sum(quantity) as ttqty from orderdetail group by pid) od on product.productid = od.pid 
+left join (select c_productid as pid , count(c_productid) as ttcomm from comment GROUP by c_productid) cm on product.productid=cm.pid";
 //若有分類關鍵字時未加限制顯示筆數的SQL敘述句
 
 if(isset($_GET["cid"])&&($_GET["cid"]!="")){
@@ -45,7 +47,7 @@ if(isset($_GET["orderby"])){
 	orderBy($_GET["orderby"],$query_RecProduct);
 }
 else
-	$query_RecProduct .=" ORDER BY productid DESC";
+	$query_RecProduct .=" ORDER BY producttime DESC";
 function orderBy($choice,&$query){
 	switch($choice){
 		
@@ -53,9 +55,14 @@ function orderBy($choice,&$query){
 			$query .=" ORDER BY producttime ASC";
 			break;
 		case 'qtydesc':
-			$query .=" ORDER BY num DESC";
+			$query .=" ORDER BY ttqty DESC";
 			break;
-		
+		case 'pricedesc':
+			$query .=" ORDER BY productprice DESC";
+			break;
+		case 'priceasc':
+			$query .=" ORDER BY productprice ASC";
+			break;
 		default:
 			$query .=" ORDER BY producttime DESC";
 			break;
@@ -68,7 +75,7 @@ $total_records = $all_RecProduct->num_rows;
 
 //計算總頁數=(總筆數/每頁筆數)後無條件進位。
 $total_pages = ceil($total_records/$pageRow_records);
-//繫結產品目錄資料
+//繫結商品目錄資料
 $query_RecCategory = "SELECT category.categoryid, category.categoryname, category.categorysort, count(product.productid) as productNum FROM category LEFT JOIN product ON category.categoryid = product.categoryid GROUP BY category.categoryid, category.categoryname, category.categorysort ORDER BY category.categorysort ASC";
 $RecCategory = $db_link->query($query_RecCategory);
 //計算資料總筆數
@@ -92,13 +99,14 @@ function keepURL(){
 <link href="../css/product_style.css" rel="stylesheet" type="text/css">
 <script src="../js/jquery-3.5.0.min.js"></script>
 <script>
-var cururl=window.location.href;
+
 $(document).ready(function(){
   $("body").find("*").css("font-family", "微軟正黑體");
 	
 });
-function orderbyfunc(){
-	
+var cururl=window.location.href;
+//選擇排序後網址
+function orderbyfunc(){	
 	var orderbyVal=$("#orderby").val();
 	var locationurl;
 	if(cururl.indexOf('orderby')!= -1)
@@ -129,7 +137,7 @@ function orderbyfunc(){
 		<td class="box-tiny">
              
 			<div class="regbox box-center">
-			  <h1> 產品搜尋 </h1>
+			  <h1> 商品搜尋 </h1>
               <form name="form1" method="get" action="product.php">
                 <p>
                   <input name="keyword" type="text" id="keyword" 
@@ -167,14 +175,16 @@ function orderbyfunc(){
 			<?php	
 			 }
 			 else{?>
-			 <p class="title">所有產品 </p>			 
-			<?php }?>
-			
+			 <p class="title">所有商品 </p>			 
+			<?php }
+			//選擇排序表單?>
 			<form method="get" action="product.php" style="text-align:right">
 				 <select id="orderby" name="orderby" onChange="orderbyfunc()" >
 					<option value="timedesc" >上架時間&#9661;</option>
 					<option value="timeasc" <?php if(isset($_GET["orderby"])&&($_GET["orderby"]=="timeasc")) echo "selected";?>>上架時間&#9651; </option>
-					<option value="qtydesc" <?php if(isset($_GET["orderby"])&&($_GET["orderby"]=="qtydesc")) echo "selected";?>>熱銷度&#9661; </option>				
+					<option value="qtydesc" <?php if(isset($_GET["orderby"])&&($_GET["orderby"]=="qtydesc")) echo "selected";?>>熱銷度&#9661; </option>	
+					<option value="pricedesc" <?php if(isset($_GET["orderby"])&&($_GET["orderby"]=="pricedesc")) echo "selected";?>>商品價格&#9661;</option>
+					<option value="priceasc" <?php if(isset($_GET["orderby"])&&($_GET["orderby"]=="priceasc")) echo "selected";?>>商品價格&#9651; </option>
 				</select>
 			</form>
 			
@@ -194,8 +204,11 @@ function orderbyfunc(){
                 <img src="proimg/<?php echo $row_RecProduct["productimages"];?>" alt="<?php echo $row_RecProduct["productname"];?>" width="135" height="135" border="0" />
                 <?php }?>
                 </a></div>
-              <div class="albuminfo"><a href="productdetail.php?id=<?php echo $row_RecProduct["productid"];?>"><?php echo substr($row_RecProduct["productname"],0,29);?></a><br />
-                <span class="smalltext">特價 </span><span class="redword"><?php echo $row_RecProduct["productprice"];?></span><span class="smalltext"> 元</span> </div>
+              <div class="nameinfo"><a href="productdetail.php?id=<?php echo $row_RecProduct["productid"];?>"><?php echo substr($row_RecProduct["productname"],0,29);?></a><br /></div>			  
+			  <div class="moreinfo">
+                <span class="smalltext">特價 </span><span class="redword"><?php echo $row_RecProduct["productprice"];?></span><span class="smalltext"> 元<br/></span> 
+				<span class="smalltext"><?php if($row_RecProduct["ttcomm"]!=NULL) echo $row_RecProduct["ttcomm"]."則評價"?></span>
+				</div>
             </div>
 			 <?php }?>
 			 </div>
@@ -210,9 +223,9 @@ function orderbyfunc(){
 	<tr>
 		<td class="box-tiny">
 	<div class="regbox categorybox">
-              <h1>產品目錄 </h1>
+              <h1>商品目錄 </h1>
               <ul >
-                <li ><a href="product.php">所有產品 <span class="categorycount">(<?php echo $row_RecTotal["totalNum"];?>)</span></a></li>
+                <li ><a href="product.php">所有商品 <span class="categorycount">(<?php echo $row_RecTotal["totalNum"];?>)</span></a></li>
                 <?php	while($row_RecCategory=$RecCategory->fetch_assoc()){ ?>
                 <li ><a href="product.php?cid=<?php echo $row_RecCategory["categoryid"];?>"><?php echo $row_RecCategory["categoryname"];?> <span class="categorycount">(<?php echo $row_RecCategory["productNum"];?>)</span></a></li>
                 <?php }?>
