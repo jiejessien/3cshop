@@ -118,7 +118,7 @@ function check_passwd(pw1,pw2){
 			alert("密碼不可以含有空白或雙引號 !\n");
 			return false;}
 		if(pw1.length<5 || pw1.length>16){
-			alert( "密碼長度只能5到10個字母 !\n" );
+			alert( "密碼長度只能5到16個字母 !\n" );
 			return false;}
 		if(pw1!= pw2){
 			alert("密碼二次輸入不一樣,請重新輸入 !\n");
