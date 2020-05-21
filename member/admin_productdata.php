@@ -15,8 +15,12 @@ if(isset($_GET["logout"]) && ($_GET["logout"]=="true")){
 	unset($_SESSION["memberLevel"]);
 	header("Location: ../member/login.php");
 }
-//刪除會員
+//刪除商品
 if(isset($_GET["action"])&&($_GET["action"]=="delete")){
+	$query_delimg="SELECT productimages from product";
+	$delimg=$db_link->query($query_delimg);
+	$row_delimg=$delimg->fetch_assoc();
+	unlink("proimg/".$row_delimg['productimages']);
 	$query_delProduct = "DELETE FROM product WHERE productid=?";
 	$stmt=$db_link->prepare($query_delProduct);
 	$stmt->bind_param("i", $_GET["id"]);
@@ -103,17 +107,17 @@ $(document).ready(function(){
 			<th width="10%" ><p>分類</p></th>
 			<th width="10%" ><p>價格</p></th>
 			<th width="20%" ><p>修改時間</p></th>
-			<th width="10%" ><p>庫存</p></th>
+			<th width="10%" ><p>預覽</p></th>
         </tr>
 		<?php while($row_RecProduct=$RecProduct->fetch_assoc()){ ?>
         <tr>
-          <td width="10%" ><p><a href="admin_update.php?id=<?php echo $row_RecProduct["productid"];?>">修改</a><br>
+          <td width="10%" ><p><a href="admin_updproduct.php?id=<?php echo $row_RecProduct["productid"];?>">修改</a><br>
                 <a href="?action=delete&id=<?php echo $row_RecProduct["productid"];?>" onClick="return deletesure();">刪除</a></p></td>
             <td width="40%" ><p><?php echo $row_RecProduct["productname"];?></p></td>
             <td width="10%" ><p><?php echo $row_RecProduct["categoryname"];?></p></td>
             <td width="10%" ><p><?php echo $row_RecProduct["productprice"];?></p></td>
             <td width="20%" ><p><?php echo $row_RecProduct["producttime"];?></p></td>
-            <td width="10%" ><p>&nbsp;</p></td>
+            <td width="10%" ><img src="<?php echo 'proimg/'.$row_RecProduct['productimages'];?>" width="inherit"></td>
             </tr>
 		<?php }?>
     </table>	        
