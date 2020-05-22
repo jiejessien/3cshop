@@ -45,9 +45,9 @@ if(isset($_GET["searchday"])&&($_GET["searchday"]!="")){
 $query_RecOrder.=" ORDER BY orderid DESC";
 //加上限制顯示筆數的SQL敘述句，由本頁開始記錄筆數開始，每頁顯示預設筆數
 $query_limit_RecOrder = $query_RecOrder." LIMIT {$startRow_records}, {$pageRow_records}";
-//以加上限制顯示筆數的SQL敘述句查詢資料到 $resultMember 中
+//以加上限制顯示筆數的SQL敘述句查詢
 $RecOrder = $db_link->query($query_limit_RecOrder);
-//以未加上限制顯示筆數的SQL敘述句查詢資料到 $all_resultMember 中
+//以未加上限制顯示筆數的SQL敘述句查詢
 
 $all_RecOrder = $db_link->query($query_RecOrder);
 //計算總筆數

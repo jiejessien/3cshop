@@ -25,7 +25,7 @@ if(isset($_POST["action"])&&($_POST["action"]=="join")){
 	if ($RecFindUser->num_rows>0){
 		header("Location: member_join.php?errMsg=1&username={$_POST["m_username"]}");
 	}else{
-	//若沒有執行新增的動作	
+	//若沒有，執行新增的動作	
 		$query_insert = "INSERT INTO memberdata (m_name, m_username, m_passwd, m_sex, m_birthday, m_email, m_phone, m_address, m_jointime) 
 		VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
 		$stmt = $db_link->prepare($query_insert);
@@ -41,7 +41,7 @@ if(isset($_POST["action"])&&($_POST["action"]=="join")){
 		$stmt->execute();
 		$stmt->close();
 		$db_link->close();
-		header("Location: member_join.php?loginStats=1");
+		header("Location: member_join.php");
 	}
 }
 ?>

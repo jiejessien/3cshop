@@ -18,7 +18,7 @@ function showpgindex($cur_p,$num_p,$loc_url){
 	}
 }
 ?>
-<a href="<?php if ($num_pages > 1) {echo $locationurl.$num_pages-1;}
+<a href="<?php if ($num_pages > 1) {echo $locationurl.($num_pages-1);}
 				  else{echo $locationurl.$num_pages;}?>">上一頁</a> 
                 <?php 
 				
@@ -42,5 +42,5 @@ function showpgindex($cur_p,$num_p,$loc_url){
 					}
 				}
 					?>
-                  <a href="<?php if ($num_pages < $total_pages) {echo $locationurl.$num_pages+1;}
+                  <a href="<?php if ($num_pages < $total_pages) {echo $locationurl.($num_pages+1);}
 				  else {echo $locationurl.$num_pages;}?>">下一頁</a> 
