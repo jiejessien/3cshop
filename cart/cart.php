@@ -9,6 +9,7 @@ if(!is_object($cart)) $cart = new myCart();
 //更新購物車數量
 if ( isset($_POST["updateqty"]) && $_POST["updateqty"] != '' ){
 	$cart->edit_item($_POST["updateid"],$_POST["updateqty"]);
+	
 }
 // 移除購物車內容
 if(isset($_GET["cartaction"]) && ($_GET["cartaction"]=="remove")){
@@ -51,10 +52,15 @@ $(document).ready(function(){
 			var idVal=$("input[id^='updateid[]']").eq(j).val() ;
 			$.ajax({
 				type:'POST',
-				url:'cart.php',
+				url:'updateqty.php',
 				data: { updateqty : qtyVal ,
 					updateid : idVal },
-				success:function(data){}				
+				success:function(data){
+					//待修
+					//var key = $(data).find("#subtotal").text();
+					//alert(key);
+					//$("p[id^='subtotal[]']").eq(j).text();
+				}				
 			});
 			return false;			
 		});		
@@ -91,8 +97,8 @@ $(document).ready(function(){
                   <input name="updateid[]" type="hidden" id="updateid[]" value="<?php echo $item['id'];?>">
                   <input name="qty[]" type="number" id="qty[]" style="width:100%" min="1" max="20" value="<?php echo $item['qty'];?>" >
                   </p></td>
-                <td  ><p>$ <?php echo number_format($item['price']);?></p></td>
-                <td  ><p>$ <?php echo number_format($item['subtotal']);?></p></td>
+                <td  ><p id="itemprice[]">$ <?php echo number_format($item['price']);?></p></td>
+                <td  ><p id="subtotal[]">$ <?php echo number_format($item['subtotal']);?></p></td>
               </tr>
           <?php }?>
               <tr>
@@ -111,7 +117,6 @@ $(document).ready(function(){
             <hr width="100%" size="1" />
             <div class="btnrow">
               <input name="cartaction" type="hidden" id="cartaction" value="update">
-              <input type="submit" name="updatebtn" id="button3" value="更新購物車">&nbsp;
               <input type="button" name="emptybtn" id="button5" value="清空購物車" onClick="window.location.href='?cartaction=empty'">&nbsp;
               <input type="button" name="button" id="button6" value="前往結帳" onClick="window.location.href='checkout.php';">&nbsp;
               <input type="button" name="backbtn" id="button4" value="繼續購物" onClick="window.history.back();">
