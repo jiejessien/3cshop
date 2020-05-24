@@ -107,6 +107,7 @@ $(document).ready(function(){
 <p class="title">新增商品</p>
 <div class="content" > 
 		<form action="admin_newproduct.php" name="newproduct" method="post" enctype="multipart/form-data">
+		
 
 		<?php 
 		//列出五組新增表單
@@ -124,6 +125,7 @@ $(document).ready(function(){
 			<option value="<?php echo $row_category["categoryname"];?>"><?php echo $row_category["categoryname"];?></option>
 			<?php }?>
 		</select>
+
 		<p>價格　　：
 		<input type="text" name="productprice[]"></p>
 		<p>圖片上傳：

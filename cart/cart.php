@@ -5,15 +5,10 @@ require_once("mycart.php");
 session_start();
 $cart =& $_SESSION['cart']; // 將購物車的值設定為 Session
 if(!is_object($cart)) $cart = new myCart();
-// 更新購物車內容
-if(isset($_POST["cartaction"]) && ($_POST["cartaction"]=="update")){
-	if(isset($_POST["updateid"])){
-		$i=count($_POST["updateid"]);
-		for($j=0;$j<$i;$j++){
-			$cart->edit_item($_POST['updateid'][$j],$_POST['qty'][$j]);
-		}
-	}
-	header("Location: cart.php");
+
+//更新購物車數量
+if ( isset($_POST["updateqty"]) && $_POST["updateqty"] != '' ){
+	$cart->edit_item($_POST["updateid"],$_POST["updateqty"]);
 }
 // 移除購物車內容
 if(isset($_GET["cartaction"]) && ($_GET["cartaction"]=="remove")){
@@ -43,8 +38,27 @@ $row_RecTotal = $RecTotal->fetch_assoc();
 <script src="../js/jquery-3.5.0.min.js"></script>
 <script>
 $(document).ready(function(){
-  $("body").find("*").css("font-family", "微軟正黑體");
- 
+	$("body").find("*").css("font-family", "微軟正黑體");
+	
+	//使用Ajax方法更新購物車
+	var itemNum=$("input[id^='qty[]']").length;
+	for(i=0;i<itemNum;i++){
+		cartaction(i);
+	}
+	function cartaction(j){
+		$("input[id^='qty[]']").eq(j).on("change",function(){
+			var qtyVal= $(this).val(); 
+			var idVal=$("input[id^='updateid[]']").eq(j).val() ;
+			$.ajax({
+				type:'POST',
+				url:'cart.php',
+				data: { updateqty : qtyVal ,
+					updateid : idVal },
+				success:function(data){}				
+			});
+			return false;			
+		});		
+	}	
  });
 </script>
 </head>
@@ -70,12 +84,12 @@ $(document).ready(function(){
                 <th ><p>小計</p></th>
               </tr>
           <?php	foreach($cart->get_contents() as $item) { ?>              
-              <tr class="table-product">
+              <tr class="table-product item_row">
                 <td  ><p><a href="?cartaction=remove&delid=<?php echo $item['id'];?>">移除</a></p></td>
                 <td  ><p><?php echo $item['info'];?></p></td>
                 <td  ><p>
                   <input name="updateid[]" type="hidden" id="updateid[]" value="<?php echo $item['id'];?>">
-                  <input name="qty[]" type="text" id="qty[]" value="<?php echo $item['qty'];?>" size="1">
+                  <input name="qty[]" type="number" id="qty[]" style="width:100%" min="1" max="20" value="<?php echo $item['qty'];?>" >
                   </p></td>
                 <td  ><p>$ <?php echo number_format($item['price']);?></p></td>
                 <td  ><p>$ <?php echo number_format($item['subtotal']);?></p></td>
