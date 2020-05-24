@@ -41,7 +41,7 @@ if(isset($_POST["action"])&&($_POST["action"]=="join")){
 		$stmt->execute();
 		$stmt->close();
 		$db_link->close();
-		header("Location: member_join.php");
+		header("Location: member_join.php?loginStats=1");
 	}
 }
 ?>
@@ -200,7 +200,7 @@ window.location.href='../member/login.php';
             <input name="action" type="hidden" id="action" value="join">
             <input type="submit" name="Submit2" value="送出申請">&nbsp
             <input type="reset" name="Submit3" value="重設資料">&nbsp
-            <input type="button" name="Submit" value="回到登入會員" onClick="window.history.back();">
+            <input type="button" name="Submit" value="回到登入會員" onClick="window.location.href='login.php';">
           </div>
         </form>
 

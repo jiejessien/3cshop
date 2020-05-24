@@ -51,15 +51,15 @@ $(document).ready(function(){
 			var qtyVal= $(this).val(); 
 			var idVal=$("input[id^='updateid[]']").eq(j).val() ;
 			$.ajax({
-				type:'POST',
+				type:'GET',
 				url:'updateqty.php',
 				data: { updateqty : qtyVal ,
 					updateid : idVal },
 				success:function(data){
-					//待修
-					//var key = $(data).find("#subtotal").text();
-					//alert(key);
-					//$("p[id^='subtotal[]']").eq(j).text();
+					
+					var subtotal = $(data).find("subtotal").text();
+					
+					$("p[id^='subtotal[]']").eq(j).text(subtotal);
 				}				
 			});
 			return false;			
