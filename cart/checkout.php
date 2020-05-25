@@ -160,7 +160,7 @@ function checkmail(myEmail) {
                 <div class="btnrow">
                   <input name="cartaction" type="hidden" id="cartaction" value="update">
                   <input type="submit" name="updatebtn" id="button3" value="送出訂購單">&nbsp;
-                  <input type="button" name="backbtn" id="button4" value="回上一頁" onClick="window.history.back();">
+                  <input type="button" name="backbtn" id="button4" value="回上一頁" onClick="window.location.href='cart.php';">
                 </div>
               </form>
             </div>

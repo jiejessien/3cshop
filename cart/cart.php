@@ -55,11 +55,13 @@ $(document).ready(function(){
 				url:'updateqty.php',
 				data: { updateqty : qtyVal ,
 					updateid : idVal },
-				success:function(data){
-					
-					var subtotal = $(data).find("subtotal").text();
-					
+				success:function(data){					
+					var subtotal = $(data).find("subtotal").text();	
+					var grandtotal = $(data).find("grandtotal").text();	
+					var deliverfee = $(data).find("deliverfee").text();						
 					$("p[id^='subtotal[]']").eq(j).text(subtotal);
+					$("p#deliverfee").text(deliverfee);
+					$("p#grandtotal").text(grandtotal);	
 				}				
 			});
 			return false;			
@@ -105,13 +107,13 @@ $(document).ready(function(){
                 <td  ><p>運費</p></td>
                 <td colspan="3" ><p>&nbsp;</p></td>
 
-                <td ><p>$ <?php echo number_format($cart->deliverfee);?></p></td>
+                <td ><p id="deliverfee">$ <?php echo number_format($cart->deliverfee);?></p></td>
               </tr>
               <tr>
                 <td ><p>總計</p></td>
                 <td colspan="3" ><p>&nbsp;</p></td>
 
-                <td  ><p class="redword">$ <?php echo number_format($cart->grandtotal);?></p></td>
+                <td  ><p class="redword" id="grandtotal">$ <?php echo number_format($cart->grandtotal);?></p></td>
               </tr>          
             </table>
             <hr width="100%" size="1" />

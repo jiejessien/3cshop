@@ -3,23 +3,23 @@ A practice production
 
 ## 專題說明
 ### 經修改及擴充的部分
-> *	HTML、CSS介面重新設計及大調整。
-> *	將會員系統與商品頁做資料連結，透過會員帳號訂購商品。
-> *	會員管理頁(admin_memberdata.php)可查詢會員帳號或姓名。
-> *	新增訂單查詢頁(admin_center.php)和訂單明細頁(admin_orderdetail.php) 。 
-> *	訂單查詢頁(admin_center.php)可篩選指定日期往後3個月內訂單。
-> *	新增商品管理頁(admin_productdata.php)，可刪除商品
-> *	新增商品上傳頁 (admin_newproduct.php) ，最多可一次上傳5個商品。
-> *	新增comment資料表及規劃欄位。
+> *	使用jQuery,Ajax方法於同一頁面更新購物車商品數量_2020/05/25
+> *	商品瀏覽頁(product.php)可選擇商品排序方式(上架時間desc/asc、暢銷度、商品價格desc/asc)
+	，及顯示商品已有幾筆評價_2020/05/21
+> *	購物車結帳頁(checkout.php)，可勾選自動填入會員資訊。
+> *	商品瀏覽頁(product.php)可同時篩選關鍵字、價格。
 > *	新增商品留言頁(member_comment.php)，可點選現成的評價文字，
 	自動填入評價。可同一頁面修改評價，並於該商品的詳細頁 (productdetail.php) 顯示商品評價。
-> *	商品瀏覽頁(product.php)可同時篩選關鍵字、價格。
-> *	購物車結帳頁(checkout.php)，可勾選自動填入會員資訊。
-> *	商品瀏覽頁(product.php)可選擇商品排序方式(上架時間desc/asc、暢銷度、商品價格desc/asc)
-	，及顯示商品已有幾筆評價
-> *	使用Ajax方法於同一頁面更新購物車商品數量(價錢動態顯示待修)
+> *	新增comment資料表及規劃欄位。
+> *	新增商品上傳頁 (admin_newproduct.php) ，最多可一次上傳5個商品。
+> *	訂單查詢頁(admin_center.php)可篩選指定日期往後3個月內訂單。
+> *	新增訂單查詢頁(admin_center.php)和訂單明細頁(admin_orderdetail.php) 。 
+> *	會員管理頁(admin_memberdata.php)可查詢會員帳號或姓名。
+> *	將會員系統與商品頁做資料連結，透過會員帳號訂購商品。
+> *	新增商品管理頁(admin_productdata.php)，可刪除商品
 > *	設計頁碼導覽列，總頁數>5時，只顯示包含當前頁面在內的5個頁碼，且當前頁面為中位數
 	。處理網址，當網址有其他傳入值，點選頁碼時其他傳入值不會被洗掉。
+> *	HTML、CSS介面重新設計及大調整。
 
 ### 原書上範例
 > *	會員系統與商品頁分屬兩個不相干的專案
