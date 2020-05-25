@@ -17,30 +17,30 @@ function showpgindex($cur_p,$num_p,$loc_url){
 <?php			
 	}
 }
+if ($num_pages > 1){
 ?>
-<a href="<?php if ($num_pages > 1) {echo $locationurl.($num_pages-1);}
-				  else{echo $locationurl.$num_pages;}?>">上一頁</a> 
+<a href="<?php echo $locationurl.($num_pages-1);?>">上一頁</a> 
                 <?php 
-				
-				if($total_pages<=5){
-					for($i=1;$i<=$total_pages;$i++){
-						showpgindex($i,$num_pages,$locationurl);
-					}
-				}else{
-					if($num_pages-2<=0){
-						for($i=1;$i<=5;$i++){
-						showpgindex($i,$num_pages,$locationurl);
-						}
-					}else if($num_pages+2>$total_pages){
-						for($i=$total_pages-4;$i<=$total_pages;$i++){
-						showpgindex($i,$num_pages,$locationurl);
-						}
-					}else{
-						for($i=$num_pages-2;$i<=$num_pages+2;$i++){
-						showpgindex($i,$num_pages,$locationurl);
-						}
-					}
-				}
-					?>
-                  <a href="<?php if ($num_pages < $total_pages) {echo $locationurl.($num_pages+1);}
-				  else {echo $locationurl.$num_pages;}?>">下一頁</a> 
+}
+if($total_pages<=5){
+	for($i=1;$i<=$total_pages;$i++){
+		showpgindex($i,$num_pages,$locationurl);
+	}
+}else{
+	if($num_pages-2<=0){
+		for($i=1;$i<=5;$i++){
+		showpgindex($i,$num_pages,$locationurl);
+		}
+	}else if($num_pages+2>$total_pages){
+		for($i=$total_pages-4;$i<=$total_pages;$i++){
+		showpgindex($i,$num_pages,$locationurl);
+		}
+	}else{
+		for($i=$num_pages-2;$i<=$num_pages+2;$i++){
+		showpgindex($i,$num_pages,$locationurl);
+		}
+	}
+}
+if ($num_pages < $total_pages){?>
+    <a href="<?php echo $locationurl.($num_pages+1);?>">下一頁</a> 
+<?php }?>

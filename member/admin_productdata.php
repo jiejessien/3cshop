@@ -102,7 +102,7 @@ $(document).ready(function(){
 </ul>
 </div>
 <div class="content" > 
-	<a href="admin_newproduct.php" class="button">新增商品</a>
+	<a class="button" href='admin_newproduct.php'>新增商品</a>
 	<table class="table-list">
 		<tr>
 			<th width="10%" >&nbsp;</th>

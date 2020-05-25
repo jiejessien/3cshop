@@ -135,7 +135,7 @@ $(document).ready(function(){
 			</tr>
 			</table>
 			<hr size="1" />
-			<a class="button" href="admin_center.php">回到訂單查詢</a>
+			<button onClick="window.location.href='admin_center.php'">回到訂單查詢</button>
 </div></div>
 
 <div class="trademark">

@@ -43,17 +43,32 @@ $category=$db_link->query($query_category);
 if(isset($_POST["action"])&&($_POST["action"]=="add")){
 	for($i=0;$i<count($_FILES["productimages"]["name"]);$i++){
 		if($_FILES["productimages"]["tmp_name"][$i] !=""){
-			//從分類名稱取得分類id
-			$query_get_categoryid="SELECT categoryid FROM category
-			WHERE categoryname=?";
-			$stmt=$db_link->prepare($query_get_categoryid);
-			$stmt->bind_param("s",
-			GetSQLValueString($_POST["productcategory"][$i],"string"));
-			$stmt->execute();
-			$stmt->bind_result($col1);
-			$stmt->fetch();
-			$categoryid=$col1;
-			$stmt->close();
+			//接收到新分類名稱
+			if(isset($_POST["newCateName"][$i])&&($_POST["newCateName"][$i]!="")){
+				//新分類存入category
+				$query_addCate="insert into category(categoryname) VALUES(?)";
+				$stmt=$db_link->prepare($query_addCate);
+				$stmt->bind_param(s,
+				GetSQLValueString($_POST["newCateName"][$i],"string"));
+				$stmt->execute();
+				$categoryid=$stmt->insert_id;
+				$stmt->close();
+				$query_addCate="UPDATE category SET categorysort={$categoryid} where categoryid={$categoryid}";
+				$db_link->query($query_addCate);
+			}
+			else{		
+				//選現有的分類，從分類名稱取得分類id
+				$query_get_categoryid="SELECT categoryid FROM category
+				WHERE categoryname=?";
+				$stmt=$db_link->prepare($query_get_categoryid);
+				$stmt->bind_param("s",
+				GetSQLValueString($_POST["productcategory"][$i],"string"));
+				$stmt->execute();
+				$stmt->bind_result($col1);
+				$stmt->fetch();
+				$categoryid=$col1;
+				$stmt->close();
+			}
 			
 			//將表單內容存入product資料表
 			$query_insert="INSERT into product (categoryid,productname,productprice,productimages,description,producttime) 
@@ -82,6 +97,15 @@ if(isset($_POST["action"])&&($_POST["action"]=="add")){
 <title>3C購物網會員系統</title>
 <link href="../css/member_style.css" rel="stylesheet" type="text/css">
 <link href="../css/catalogstyle.css" rel="stylesheet" type="text/css" >
+<style>
+.hidden{
+	display:none;
+}
+.toggle{
+	display:initial;
+	margin-left:70px;
+}
+</style>
 <script src="../js/jquery-3.5.0.min.js"></script>
 <script language="javascript">
 function deletesure(){
@@ -92,7 +116,19 @@ function deletesure(){
 <script>
 $(document).ready(function(){
   $("table.table-list").find("tr:odd").css("background-color", "white");
-  $("table.table-list").find("tr:even").css("background-color", "E9E9E2");
+  $("table.table-list").find("tr:even").css("background-color", "E9E9E2");  
+  
+  $("select").change(function(){
+	  //新增分類時，顯示輸入新分類名稱的欄位
+	  if($(this).val()=='newCate'){
+		  $(this).parents(".itemDiv").find(".hidden").addClass("toggle");
+	  } 
+	  else{
+		  //不選時，清除新分類名稱欄位，並隱藏
+		  $(this).parents(".itemDiv").find(".hidden").children().val("");
+		  $(this).parents(".itemDiv").find(".hidden").removeClass("toggle");
+	  }
+  });
 });
 </script>
 </head>
@@ -112,11 +148,12 @@ $(document).ready(function(){
 		<?php 
 		//列出五組新增表單
 		for($i=0;$i<5;$i++){?>
+		<div class="itemDiv">
 		<h1>商品<?php echo $i+1;?></h1>
 		<p>商品名稱：
 		<input type="text" name="productname[]"></p>
 		<p>分類　　：
-		<select name="productcategory[]" >
+		<select name="productcategory[]" id="productcategory[]">
 		
 			<?php
 			//所有分類名稱選單
@@ -124,21 +161,24 @@ $(document).ready(function(){
 			while($row_category=$category->fetch_assoc()){?>
 			<option value="<?php echo $row_category["categoryname"];?>"><?php echo $row_category["categoryname"];?></option>
 			<?php }?>
-		</select>
-
+			<option value="newCate" id="newCate[]">新增分類</option>
+		</select></p>
+		<p class="hidden" >新分類名稱：
+		<input type="text" name="newCateName[]" id="newCateName[]" style="width:20%"></p>
 		<p>價格　　：
 		<input type="text" name="productprice[]"></p>
 		<p>圖片上傳：
 		<input type="file" name="productimages[]"></p>
 		<p>商品敘述：
 		<textarea rows="10" cols="40" name="description[]"></textarea></p>
+		</div>
 		<?php }?>
 		<div class="btnrow">
 			<hr size="1" />
 			<input name="action" type="hidden" id="action" value="add">  
 			<input type="submit" name="Submit2" value="送出申請">&nbsp
             <input type="reset" name="Submit3" value="重設資料">&nbsp
-			<a href="admin_productdata.php" class="button">回到管理商品</a>
+			<a class="button" href='admin_productdata.php'>回到管理商品</a>
 			</div>
 		</form>
 </div></div>
@@ -154,3 +194,10 @@ $(document).ready(function(){
 <?php
 	$db_link->close();
 ?>
+
+
+
+
+
+
+
