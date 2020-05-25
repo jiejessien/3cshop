@@ -3,7 +3,7 @@ A practice production
 
 ## 專題說明
 ### 經修改及擴充的部分
-> *	商品上傳頁 (admin_newproduct.php)可自訂新分類名稱，新分類名稱欄位為動態顯示，不選則清空欄位並隱藏
+> *	商品上傳頁 (admin_newproduct.php)可自訂新分類名稱，新分類名稱輸入框為動態顯示，不選則清空輸入框並隱藏
 	_2020/05/25
 > *	使用jQuery,Ajax方法於同一頁面更新購物車商品數量_2020/05/24
 > *	商品瀏覽頁(product.php)可選擇商品排序方式(上架時間desc/asc、暢銷度、商品價格desc/asc)

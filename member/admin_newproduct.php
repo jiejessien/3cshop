@@ -119,12 +119,12 @@ $(document).ready(function(){
   $("table.table-list").find("tr:even").css("background-color", "E9E9E2");  
   
   $("select").change(function(){
-	  //新增分類時，顯示輸入新分類名稱的欄位
+	  //新增分類時，顯示新分類名稱輸入框
 	  if($(this).val()=='newCate'){
 		  $(this).parents(".itemDiv").find(".hidden").addClass("toggle");
 	  } 
 	  else{
-		  //不選時，清除新分類名稱欄位，並隱藏
+		  //不選時，清空新分類名稱輸入框，並隱藏
 		  $(this).parents(".itemDiv").find(".hidden").children().val("");
 		  $(this).parents(".itemDiv").find(".hidden").removeClass("toggle");
 	  }
