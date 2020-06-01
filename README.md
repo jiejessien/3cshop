@@ -1,5 +1,5 @@
 # 3cshop
-###--With PHP, MySQL, HTML, CSS, jQuery, JavaScript
+### --With PHP, MySQL, HTML, CSS, jQuery, JavaScript
 A practice production
 
 ## 專題說明
